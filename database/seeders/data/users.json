@@ -1,0 +1,317 @@
+[
+  {
+    "id": 1,
+    "nip_lama": "340016105",
+    "username": "bambang.indarto",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "b.indarto@bps.go.id",
+    "id_role": "2",
+    "tim_id": null
+  },
+  {
+    "id": 2,
+    "nip_lama": "340052179",
+    "username": "ludfi.wilda",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "ludfi@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 3,
+    "nip_lama": "340015713",
+    "username": "dian.parwitasari",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "dianparwitasari@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 4,
+    "nip_lama": "340012812",
+    "username": "yahya.ubed",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "yahyaubed@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 5,
+    "nip_lama": "340016074",
+    "username": "shidik.purnomo",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "shidik.purnomo@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 6,
+    "nip_lama": "340016179",
+    "username": "tri.cahya",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "tri.cahya@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 7,
+    "nip_lama": "340016552",
+    "username": "arief.aji",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "arief.aji@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 8,
+    "nip_lama": "340013131",
+    "username": "eko.wahono",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "eko.wahono@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 9,
+    "nip_lama": "340014429",
+    "username": "agus.kunarto",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "kunarto@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 10,
+    "nip_lama": "340016284",
+    "username": "samsul.arif",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "samsul.maarif@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 11,
+    "nip_lama": "340016285",
+    "username": "supandi",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "supandi2@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 12,
+    "nip_lama": "340016620",
+    "username": "yudi.kurniawan",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "kurniawan.yudi@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 13,
+    "nip_lama": "340018649",
+    "username": "pamuji",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "pamuji2@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 14,
+    "nip_lama": "340020208",
+    "username": "widya.kartika",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "widyakartika@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 15,
+    "nip_lama": "340050220",
+    "username": "yudha.candra",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "rietmi@bps.go.id",
+    "id_role": "2",
+    "tim_id": null
+  },
+  {
+    "id": 16,
+    "nip_lama": "340051208",
+    "username": "lutfi.alfia",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "lutfi_alfia@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 17,
+    "nip_lama": "340013982",
+    "username": "eko.widarwanto",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "widarwanto@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 18,
+    "nip_lama": "340013984",
+    "username": "ismana.hudi",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "ismana@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 19,
+    "nip_lama": "340056487",
+    "username": "winidya.rohifisien",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "winidya@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 20,
+    "nip_lama": "340057800",
+    "username": "bitasari.pascalisa",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "bitasari.pascalisa@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 21,
+    "nip_lama": "340015870",
+    "username": "sidhiq.eko",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "sidhiq.eko@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 22,
+    "nip_lama": "340019079",
+    "username": "fachrur.riza",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "fachrur@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 23,
+    "nip_lama": "340052163",
+    "username": "koirul.anam",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "koirul@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 24,
+    "nip_lama": "340053067",
+    "username": "ali.imron",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "ali.imron@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 25,
+    "nip_lama": "340055121",
+    "username": "nassa.rudin",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "nassa.rudin@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 26,
+    "nip_lama": "340055139",
+    "username": "yeni.wardha",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "yeni.wardha@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 27,
+    "nip_lama": "340055966",
+    "username": "ir.junaida",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "ir.junaida@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 28,
+    "nip_lama": "340060847",
+    "username": "ouditiana.safitri",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "ouditiana.safitri@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 29,
+    "nip_lama": "340061140",
+    "username": "achmad.triaji",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "achmad.triaji@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 30,
+    "nip_lama": "340061263",
+    "username": "efrida.fitriah",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "efrida.fitriah@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 31,
+    "nip_lama": "340015369",
+    "username": "nasruddin",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "nasruddin2@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 32,
+    "nip_lama": "340017588",
+    "username": "hariyanti.ika",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "hariyanti.ika@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 33,
+    "nip_lama": "340020141",
+    "username": "erma.agus",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "erma.agus@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 34,
+    "nip_lama": "340017972",
+    "username": "agus.wachyu",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "agus.wachyu@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 35,
+    "nip_lama": "444444444",
+    "username": "super.admin",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "super.admin@bps.go.id",
+    "id_role": "2",
+    "tim_id": null
+  }
+]
