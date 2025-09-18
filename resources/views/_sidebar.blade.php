@@ -3,15 +3,14 @@
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
             <a href="/" class="logo d-flex align-items-center">
-                <img
-                    src="{{ asset('assets/img/logo.png') }}"
-                    alt="navbar brand"
-                    class="navbar-brand"
-                    height="25" />
                 <span
                     style="font-family: Arial, sans-serif; font-size:11px; line-height:1.2;"
                     class="fw-bold fst-italic text-uppercase text-white">
-                    Badan Pusat Statistik Kabupaten Kediri
+                    <a href="/" class="logo d-flex align-items-center">
+                        <span class="brand-text">
+                            SI-AKSI
+                        </span>
+                    </a>
                 </span>
 
             </a>
@@ -34,14 +33,19 @@
             <ul class="nav nav-secondary">
                 <li class="nav-item {{ request()->is('dashboard*') ? 'active' : '' }}">
                     @if(Auth::user()->id_role == 2)
-                    <a href="{{ route('dashboard.admin') }}">
+                    <a href="{{ route('dashboard.ketua') }}">
                         <i class="fas fa-home"></i>
-                        <p>Dashboard</p>
+                        <p>Dashboard Ketua Tim</p>
                     </a>
-                    @else
+                    @elseif(Auth::user()->id_role == 1)
                     <a href="{{ route('dashboard.operator') }}">
                         <i class="fas fa-home"></i>
-                        <p>Dashboard</p>
+                        <p>Dashboard Operator</p>
+                    </a>
+                    @else
+                    <a href="{{ route('dashboard') }}">
+                        <i class="fas fa-home"></i>
+                        <p>Dashboard Admin</p>
                     </a>
                     @endif
                 </li>
@@ -51,7 +55,13 @@
                     </span>
                     <h4 class="text-section">Menu</h4>
                 </li>
-                <li class="nav-item {{ request()->routeIs('form.*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->routeIs('form.index') ? 'active' : '' }}">
+                    <a href="{{ route('form.index') }}">
+                        <i class="fas fa-edit"></i>
+                        <p>Pembuatan Form</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="">
                         <i class="fas fa-file"></i>
                         <p>Form</p>
@@ -70,3 +80,18 @@
         </div>
     </div>
 </div>
+
+<style>
+    .brand-text {
+        font-family: "Poppins", Arial, sans-serif;
+        font-size: 35px;
+        font-weight: 700;
+        font-style: italic;
+        text-transform: uppercase;
+        color: #00bcd4;
+        /* biru tosca */
+        letter-spacing: 1.2px;
+        line-height: 1.2;
+        /* rapatin antarbaris */
+    }
+</style>

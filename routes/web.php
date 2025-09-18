@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\DashboardAdminController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardKetuaController;
 use App\Http\Controllers\DashboardOperatorController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CreateFormController;
 
 // -------------------------------------------------------------------
 // Halaman Home
@@ -38,11 +40,14 @@ Route::get('/notfound', function () {
 // -------------------------------------------------------------------
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    Route::middleware('role:1,2')->group(function () {
+    Route::middleware('role:1,2,3')->group(function () {
 
         // Dashboard
-        Route::get('/dashboardAdmin', [DashboardAdminController::class, 'index'])
-            ->name('dashboard.admin');
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('dashboard');
+
+        Route::get('/dashboardKetua', [DashboardKetuaController::class, 'index'])
+            ->name('dashboard.ketua');
 
         Route::get('/dashboardOperator', [DashboardOperatorController::class, 'index'])
             ->name('dashboard.operator');
@@ -53,5 +58,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
         Route::post('/edit-profile', [ProfileController::class, 'setPhotoProfile'])->name('edit.profile');
         Route::put('/password/change', [ProfileController::class, 'changePassword'])->name('password.change');
+
+        // Create Form
+        Route::name('form.')->prefix('/form')->group(function () {
+            Route::get('/', [CreateFormController::class, 'index'])->name('index');
+        });
     });
 });

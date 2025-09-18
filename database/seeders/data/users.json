@@ -5,8 +5,8 @@
     "username": "bambang.indarto",
     "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
     "email": "b.indarto@bps.go.id",
-    "id_role": "2",
-    "tim_id": null
+    "id_role": "3",
+    "tim_id": "9"
   },
   {
     "id": 2,
@@ -23,8 +23,8 @@
     "username": "dian.parwitasari",
     "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
     "email": "dianparwitasari@bps.go.id",
-    "id_role": "1",
-    "tim_id": null
+    "id_role": "2",
+    "tim_id": "2"
   },
   {
     "id": 4,
@@ -50,8 +50,8 @@
     "username": "tri.cahya",
     "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
     "email": "tri.cahya@bps.go.id",
-    "id_role": "1",
-    "tim_id": null
+    "id_role": "2",
+    "tim_id": "4"
   },
   {
     "id": 7,
@@ -59,8 +59,8 @@
     "username": "arief.aji",
     "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
     "email": "arief.aji@bps.go.id",
-    "id_role": "1",
-    "tim_id": null
+    "id_role": "2",
+    "tim_id": "3"
   },
   {
     "id": 8,
@@ -104,8 +104,8 @@
     "username": "yudi.kurniawan",
     "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
     "email": "kurniawan.yudi@bps.go.id",
-    "id_role": "1",
-    "tim_id": null
+    "id_role": "2",
+    "tim_id": "6"
   },
   {
     "id": 13,
@@ -113,8 +113,8 @@
     "username": "pamuji",
     "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
     "email": "pamuji2@bps.go.id",
-    "id_role": "1",
-    "tim_id": null
+    "id_role": "2",
+    "tim_id": "5"
   },
   {
     "id": 14,
@@ -122,8 +122,8 @@
     "username": "widya.kartika",
     "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
     "email": "widyakartika@bps.go.id",
-    "id_role": "1",
-    "tim_id": null
+    "id_role": "2",
+    "tim_id": "8"
   },
   {
     "id": 15,
@@ -132,7 +132,7 @@
     "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
     "email": "rietmi@bps.go.id",
     "id_role": "2",
-    "tim_id": null
+    "tim_id": "7"
   },
   {
     "id": 16,
@@ -275,8 +275,8 @@
     "username": "nasruddin",
     "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
     "email": "nasruddin2@bps.go.id",
-    "id_role": "1",
-    "tim_id": null
+    "id_role": "2",
+    "tim_id": "1"
   },
   {
     "id": 32,
@@ -311,7 +311,7 @@
     "username": "super.admin",
     "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
     "email": "super.admin@bps.go.id",
-    "id_role": "2",
-    "tim_id": null
+    "id_role": "3",
+    "tim_id": "9"
   }
 ]

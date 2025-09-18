@@ -1,0 +1,11 @@
+[
+    { "id": 1, "tim": "Umum" },
+    { "id": 2, "tim": "Humas, Pojok Statistik, PSS" },
+    { "id": 3, "tim": "IPDS" },
+    { "id": 4, "tim": "Statistik Sosial" },
+    { "id": 5, "tim": "Statistik Distribusi" },
+    { "id": 6, "tim": "Statistik Produksi" },
+    { "id": 7, "tim": "Nerwilis" },
+    { "id": 8, "tim": "SAKIP, ZI, EPSS" },
+    { "id": 9, "tim": "Pimpinan" }
+]

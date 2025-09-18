@@ -27,7 +27,9 @@ class RedirectIfAuthenticated
                     case 1:
                         return redirect()->route('dashboard.operator');
                     case 2:
-                        return redirect()->route('dashboard.admin');
+                        return redirect()->route('dashboard.ketua');
+                    case 3:
+                        return redirect()->route('dashboard');
                     default:
                         return redirect()->route('login');
                 }
