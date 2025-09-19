@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardOperatorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\ManageUserController;
+use App\Http\Controllers\JawabanController;
 
 // -------------------------------------------------------------------
 // Halaman Home
@@ -77,7 +78,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/{form}', [FormController::class, 'show'])->name('show');
         });
 
-        // Manage User
+        // Jawaban User
+        Route::name('jawaban.')->prefix('/jawaban')->group(function () {
+            Route::get('/', [JawabanController::class, 'index'])->name('index');
+        });
+
         Route::name('manage.user.')->prefix('manage/user')->group(function () {
             Route::get('/', [ManageUserController::class, 'index'])->name('index');
             Route::get('/create', [ManageUserController::class, 'create'])->name('create');

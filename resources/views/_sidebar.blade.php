@@ -55,19 +55,28 @@
                     </span>
                     <h4 class="text-section">Menu</h4>
                 </li>
+                @if(in_array(Auth::user()->id_role, [3]))
                 <li class="nav-item {{ request()->routeIs('form.index') ? 'active' : '' }}">
                     <a href="{{ route('form.index') }}">
                         <i class="fas fa-edit"></i>
                         <p>Pembuatan Form</p>
                     </a>
                 </li>
-
+                @endif
                 <li class="nav-item {{ request()->routeIs('form.list') || request()->routeIs('form.show') ? 'active' : '' }}">
                     <a href="{{ route('form.list') }}">
                         <i class="fas fa-file"></i>
                         <p>Form</p>
                     </a>
                 </li>
+                @if(in_array(Auth::user()->id_role, [3]))
+                <li class="nav-item {{ request()->routeIs('jawaban.*') ? 'active' : '' }}">
+                    <a href="{{ route('jawaban.index') }}">
+                        <i class="fas fa-list-alt"></i>
+                        <p>Jawaban User</p>
+                    </a>
+                </li>
+                @endif
                 @if(in_array(Auth::user()->id_role, [3]))
                 <li class="nav-item {{ request()->routeIs('manage.user.*') || request()->routeIs('manage.user.create') || request()->routeIs('manage.user.edit') ? 'active' : '' }}">
                     <a href="{{ route('manage.user.index') }}">

@@ -13,6 +13,10 @@ class ManageUserController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->id_role != 3) {
+            abort(403, 'Unauthorized');
+        }
+
         $users = User::with('role')->get();
         $roles = Role::all();
         $timList = Tim::orderBy('nama_tim')->get();

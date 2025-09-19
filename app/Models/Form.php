@@ -12,4 +12,14 @@ class Form extends Model
     {
         return $this->hasMany(Section::class);
     }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(FormAnswer::class);
+    }
 }
