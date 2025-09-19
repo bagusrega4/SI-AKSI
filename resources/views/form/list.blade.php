@@ -11,7 +11,7 @@
         </div>
         <div class="list-group">
             @forelse($forms as $form)
-            <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="list-group-item d-flex justify-content-between align-items-center mb-2">
                 <!-- Judul form tanpa link -->
                 <span>{{ $form->title }}</span>
 

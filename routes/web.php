@@ -81,6 +81,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Jawaban User
         Route::name('jawaban.')->prefix('/jawaban')->group(function () {
             Route::get('/', [JawabanController::class, 'index'])->name('index');
+            Route::delete('/{id}', [JawabanController::class, 'destroy'])->name('destroy');
+            Route::get('/export-excel/{form_id}', [JawabanController::class, 'exportExcel'])->name('export.excel');
+            Route::get('/export-pdf/{form_id}', [JawabanController::class, 'exportPdf'])->name('export.pdf');
         });
 
         Route::name('manage.user.')->prefix('manage/user')->group(function () {

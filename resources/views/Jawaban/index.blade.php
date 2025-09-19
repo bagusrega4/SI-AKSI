@@ -26,6 +26,14 @@
             </div>
         </form>
 
+        @if(request('form_id') && isset($answers) && count($answers) > 0)
+        <div class="mb-3 d-flex justify-content-end">
+            <a href="{{ route('jawaban.export.excel', request('form_id')) }}" class="btn btn-success btn-sm">
+                Download Excel
+            </a>
+        </div>
+        @endif
+
         @if(isset($answers) && count($answers) > 0)
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
@@ -44,9 +52,19 @@
                         <td>{{ $ans->user->pegawai->nama }}</td>
                         <td>{{ $ans->created_at->format('d-m-Y H:i') }}</td>
                         <td>
+                            <!-- Tombol Detail -->
                             <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailModal{{ $ans->id }}">
                                 Detail
                             </button>
+
+                            <!-- Tombol Delete -->
+                            <form action="{{ route('jawaban.destroy', $ans->id) }}" method="POST" class="d-inline form-delete">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn btn-sm btn-danger btn-delete">
+                                    Hapus
+                                </button>
+                            </form>
                         </td>
                     </tr>
 
@@ -59,12 +77,23 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    @foreach($ans->details as $d)
-                                    <p>
-                                        <strong>{{ $d->question->text }}</strong><br>
-                                        {{ $d->answer_text }}
-                                    </p>
-                                    <hr>
+                                    @php
+                                    $grouped = $ans->details->groupBy(function($item) {
+                                    return $item->question->section->title ?? 'Tanpa Section';
+                                    });
+                                    @endphp
+
+                                    @foreach($grouped as $sectionName => $details)
+                                    <h5 class="mt-3 mb-2 text-primary">{{ $sectionName }}</h5>
+                                    <div class="ps-3">
+                                        @foreach($details as $d)
+                                        <p>
+                                            <strong>{{ $d->question->text }}</strong><br>
+                                            {{ $d->answer_text }}
+                                        </p>
+                                        <hr>
+                                        @endforeach
+                                    </div>
                                     @endforeach
                                 </div>
                             </div>
@@ -81,4 +110,46 @@
         @endif
     </div>
 </div>
+@endsection
+
+@section('script')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const deleteButtons = document.querySelectorAll(".btn-delete");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function(e) {
+                let form = this.closest("form");
+
+                Swal.fire({
+                    title: "Apakah Anda yakin?",
+                    text: "Data jawaban yang dihapus tidak bisa dikembalikan!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#6c757d",
+                    confirmButtonText: "Ya, hapus!",
+                    cancelButtonText: "Batal"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+@if(session('success'))
+<script>
+    Swal.fire({
+        icon: "success",
+        title: "Berhasil",
+        text: "{{ session('success') }}",
+        timer: 2000,
+        showConfirmButton: false
+    });
+</script>
+@endif
 @endsection
