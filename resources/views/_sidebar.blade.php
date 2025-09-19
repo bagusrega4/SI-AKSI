@@ -32,15 +32,10 @@
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
                 <li class="nav-item {{ request()->is('dashboard*') ? 'active' : '' }}">
-                    @if(Auth::user()->id_role == 2)
-                    <a href="{{ route('dashboard.ketua') }}">
+                    @if(in_array(Auth::user()->id_role, [1, 2]))
+                    <a href="{{ route('welcome.page') }}">
                         <i class="fas fa-home"></i>
-                        <p>Dashboard Ketua Tim</p>
-                    </a>
-                    @elseif(Auth::user()->id_role == 1)
-                    <a href="{{ route('dashboard.operator') }}">
-                        <i class="fas fa-home"></i>
-                        <p>Dashboard Operator</p>
+                        <p>Welcome Page</p>
                     </a>
                     @else
                     <a href="{{ route('dashboard') }}">

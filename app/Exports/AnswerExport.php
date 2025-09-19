@@ -30,7 +30,7 @@ class AnswerExport implements FromCollection, WithHeadings
 
         foreach ($jawaban as $j) {
             $row = [
-                'Nama User' => $j->user->pegawai->nama ?? '-',
+                'Nama Pegawai' => $j->user->pegawai->nama ?? '-',
                 'Tanggal'   => $j->created_at->format('d-m-Y H:i'),
             ];
 
@@ -51,7 +51,7 @@ class AnswerExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        $headings = ['Nama User', 'Tanggal'];
+        $headings = ['Nama Pegawai', 'Tanggal'];
 
         foreach ($this->sections as $section) {
             $headings[] = "Section";

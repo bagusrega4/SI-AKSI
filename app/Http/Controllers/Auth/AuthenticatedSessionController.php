@@ -33,9 +33,9 @@ class AuthenticatedSessionController extends Controller
 
         switch ($role) {
             case 1:
-                return redirect()->intended(route('dashboard.operator'));
+                return redirect()->intended(route('welcome.page'));
             case 2:
-                return redirect()->intended(route('dashboard.ketua'));
+                return redirect()->intended(route('welcome.page'));
             case 3:
                 return redirect()->intended(route('dashboard'));
             default:

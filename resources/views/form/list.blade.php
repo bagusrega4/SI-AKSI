@@ -16,10 +16,21 @@
                 <span>{{ $form->title }}</span>
 
                 <div class="btn-group ms-auto">
-                    <!-- Tombol Isi Form (selalu muncul untuk semua id_role) -->
+                    @php
+                    $sudahIsi = $form->answers->where('user_id', Auth::id())->count() > 0;
+                    @endphp
+
+                    @if(!$sudahIsi)
+                    <!-- Tombol Isi Form (jika belum pernah isi) -->
                     <a href="{{ route('form.show', $form->id) }}" class="btn btn-sm btn-primary">
                         <i class="fas fa-pen"></i> Isi Form
                     </a>
+                    @else
+                    <!-- Tombol Disabled + SweetAlert -->
+                    <button type="button" class="btn btn-sm btn-secondary btn-isi-disabled" data-form="{{ $form->title }}">
+                        <i class="fas fa-ban"></i> Isi Form
+                    </button>
+                    @endif
 
                     @if(Auth::user()->id_role == 3)
                     <!-- Tombol Edit -->
@@ -83,6 +94,20 @@
             timer: 2000
         });
         @endif
+
+        // Feedback isi form yang sudah ada
+        document.querySelectorAll('.btn-isi-disabled').forEach(button => {
+            button.addEventListener('click', function() {
+                let formTitle = this.getAttribute('data-form');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Form sudah diisi',
+                    text: `Anda sudah mengisi form "${formTitle}". Silakan hubungi admin untuk menghapus jika ingin mengisi ulang.`,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                });
+            });
+        });
     });
 </script>
 @endsection

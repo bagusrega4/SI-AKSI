@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DashboardKetuaController;
-use App\Http\Controllers\DashboardOperatorController;
+use App\Http\Controllers\WelcomePageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\ManageUserController;
@@ -48,11 +47,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
 
-        Route::get('/dashboardKetua', [DashboardKetuaController::class, 'index'])
-            ->name('dashboard.ketua');
-
-        Route::get('/dashboardOperator', [DashboardOperatorController::class, 'index'])
-            ->name('dashboard.operator');
+        Route::get('/welcomePage', [WelcomePageController::class, 'index'])
+            ->name('welcome.page');
 
         // Profile
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
