@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardKetuaController;
 use App\Http\Controllers\DashboardOperatorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\ManageUserController;
 
 // -------------------------------------------------------------------
 // Halaman Home
@@ -59,6 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/edit-profile', [ProfileController::class, 'setPhotoProfile'])->name('edit.profile');
         Route::put('/password/change', [ProfileController::class, 'changePassword'])->name('password.change');
 
+        // Form
         Route::name('form.')->prefix('/form')->group(function () {
             Route::get('/', [FormController::class, 'index'])->name('index');
             Route::get('/create', [FormController::class, 'create'])->name('create');
@@ -73,6 +75,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/{id}/answer', [FormController::class, 'storeAnswer'])->name('storeAnswer');
 
             Route::get('/{form}', [FormController::class, 'show'])->name('show');
+        });
+
+        // Manage User
+        Route::name('manage.user.')->prefix('manage/user')->group(function () {
+            Route::get('/', [ManageUserController::class, 'index'])->name('index');
+            Route::get('/create', [ManageUserController::class, 'create'])->name('create');
+            Route::post('/store', [ManageUserController::class, 'store'])->name('store');
+            Route::put('/{id}/update-role', [ManageUserController::class, 'updateRoleUser'])->name('updateRole');
+            Route::put('/{id}/update-tim', [ManageUserController::class, 'updateTimUser'])->name('updateTim'); // 👉 tambahan
+            Route::get('/edit/{id}', [ManageUserController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [ManageUserController::class, 'update'])->name('update');
+            Route::delete('/{id}', [ManageUserController::class, 'destroy'])->name('destroy');
         });
     });
 });
