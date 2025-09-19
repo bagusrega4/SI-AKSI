@@ -6,7 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardKetuaController;
 use App\Http\Controllers\DashboardOperatorController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CreateFormController;
+use App\Http\Controllers\FormController;
 
 // -------------------------------------------------------------------
 // Halaman Home
@@ -59,9 +59,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/edit-profile', [ProfileController::class, 'setPhotoProfile'])->name('edit.profile');
         Route::put('/password/change', [ProfileController::class, 'changePassword'])->name('password.change');
 
-        // Create Form
         Route::name('form.')->prefix('/form')->group(function () {
-            Route::get('/', [CreateFormController::class, 'index'])->name('index');
+            Route::get('/', [FormController::class, 'index'])->name('index');
+            Route::get('/create', [FormController::class, 'create'])->name('create');
+            Route::post('/', [FormController::class, 'store'])->name('store');
+
+            Route::get('/list', [FormController::class, 'list'])->name('list');
+
+            Route::get('/{form}/edit', [FormController::class, 'edit'])->name('edit');
+            Route::put('/{form}', [FormController::class, 'update'])->name('update');
+            Route::delete('/{form}', [FormController::class, 'destroy'])->name('destroy');
+
+            Route::post('/{id}/answer', [FormController::class, 'storeAnswer'])->name('storeAnswer');
+
+            Route::get('/{form}', [FormController::class, 'show'])->name('show');
         });
     });
 });

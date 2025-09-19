@@ -61,8 +61,9 @@
                         <p>Pembuatan Form</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="">
+
+                <li class="nav-item {{ request()->routeIs('form.list') || request()->routeIs('form.show') ? 'active' : '' }}">
+                    <a href="{{ route('form.list') }}">
                         <i class="fas fa-file"></i>
                         <p>Form</p>
                     </a>
@@ -93,5 +94,13 @@
         letter-spacing: 1.2px;
         line-height: 1.2;
         /* rapatin antarbaris */
+    }
+
+    .sidebar[data-background-color="dark"] {
+        background: #1b2b2b !important;
+    }
+
+    .logo-header[data-background-color="dark"] {
+        background: #254545 !important;
     }
 </style>
