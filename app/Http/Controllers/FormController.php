@@ -85,7 +85,19 @@ class FormController extends Controller
 
     public function list()
     {
-        $forms = Form::all();
+        $userId = auth()->id();
+
+        $forms = Form::with('answers')
+            ->select('forms.*')
+            ->selectRaw('CASE WHEN form_answers.id IS NULL THEN 0 ELSE 1 END AS sudah_isi')
+            ->leftJoin('form_answers', function ($join) use ($userId) {
+                $join->on('forms.id', '=', 'form_answers.form_id')
+                    ->where('form_answers.user_id', '=', $userId);
+            })
+            ->orderBy('sudah_isi', 'ASC')
+            ->orderBy('forms.created_at', 'DESC')
+            ->get();
+
         return view('form.list', compact('forms'));
     }
 

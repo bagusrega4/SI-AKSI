@@ -1,68 +1,119 @@
 <x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
     <style>
         body {
-            background: linear-gradient(to right, #1e3c72, #2a5298, #6dd5fa);
+            background: linear-gradient(135deg, #1d2671, #c33764);
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 380px;
+            color: white;
+        }
+
+        .glass-card h2 {
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .glass-card p {
+            text-align: center;
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 25px;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.25);
+            outline: none;
+            box-shadow: none;
+            color: #fff;
+        }
+
+        .btn-login {
+            background: linear-gradient(45deg, #6dd5ed, #2193b0);
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(45deg, #2193b0, #6dd5ed);
+            transform: scale(1.03);
         }
 
         .password-toggle {
-            cursor: pointer;
             position: absolute;
             top: 50%;
             right: 15px;
             transform: translateY(-50%);
-            color: #6c757d;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.7);
         }
     </style>
 
-    <div class="d-flex justify-content-center align-items-center min-vh-100">
-        <div class="card shadow-lg border-0 rounded-4" style="max-width: 400px; width: 100%;">
-            <div class="card-body p-5">
-                <h2 class="text-center mb-3 fw-bold">Login</h2>
-                <p class="text-center text-muted mb-4">Masukan username email BPS anda untuk login</p>
+    <div class="glass-card">
+        <h2>Welcome Back</h2>
+        <p>Masukkan email BPS dan password untuk login</p>
 
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
 
-                    <!-- Email -->
-                    <div class="mb-4">
-                        <input
-                            type="email"
-                            class="form-control @error('email') is-invalid @enderror"
-                            name="email"
-                            value="{{ old('email') }}"
-                            placeholder="Email"
-                            required autofocus autocomplete="username">
-                        <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
-                    </div>
-
-                    <!-- Password -->
-                    <div class="mb-4 position-relative">
-                        <input
-                            type="password"
-                            id="password"
-                            class="form-control @error('password') is-invalid @enderror"
-                            name="password"
-                            placeholder="Password"
-                            required autocomplete="current-password">
-                        <span class="password-toggle" onclick="togglePassword()">
-                            <i id="toggleIcon" class="bi bi-eye"></i>
-                        </span>
-                        <x-input-error :messages="$errors->get('password')" class="mt-2 text-danger" />
-                    </div>
-
-                    <!-- Submit -->
-                    <div class="d-grid mb-3">
-                        <button type="submit" class="btn btn-primary fw-semibold">
-                            Login
-                        </button>
-                    </div>
-                </form>
+            <!-- Email -->
+            <div class="mb-3">
+                <input type="email"
+                    class="form-control @error('email') is-invalid @enderror"
+                    name="email"
+                    value="{{ old('email') }}"
+                    placeholder="Email"
+                    required autofocus autocomplete="username">
+                <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
             </div>
-        </div>
+
+            <!-- Password -->
+            <div class="mb-3 position-relative">
+                <input type="password"
+                    id="password"
+                    class="form-control @error('password') is-invalid @enderror"
+                    name="password"
+                    placeholder="Password"
+                    required autocomplete="current-password">
+                <span class="password-toggle" onclick="togglePassword()">
+                    <i id="toggleIcon" class="bi bi-eye"></i>
+                </span>
+                <x-input-error :messages="$errors->get('password')" class="mt-2 text-danger" />
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-login w-100">
+                Login
+            </button>
+        </form>
     </div>
 
     <!-- Script Toggle Password -->
@@ -82,6 +133,6 @@
         }
     </script>
 
-    <!-- Bootstrap Icons (CDN) -->
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </x-guest-layout>
