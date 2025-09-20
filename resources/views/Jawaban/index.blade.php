@@ -27,16 +27,23 @@
         </form>
 
         @if(request('form_id') && isset($answers) && count($answers) > 0)
-        <div class="mb-3 d-flex justify-content-end">
-            <a href="{{ route('jawaban.export.excel', request('form_id')) }}" class="btn btn-success btn-sm">
-                Download Excel
+        <div class="mb-3 d-flex justify-content-between">
+            <!-- Search -->
+            <div class="col-md-4">
+                <input type="text" id="searchNama" class="form-control" placeholder="Cari Nama User...">
+            </div>
+            <!-- Download -->
+            <a href="{{ route('jawaban.export.excel', request('form_id')) }}"
+                class="btn btn-success d-flex align-items-center gap-2 px-3 py-2 shadow-sm rounded-pill">
+                <i class="bi bi-file-earmark-excel-fill fs-5"></i>
+                <span>Download Excel</span>
             </a>
         </div>
         @endif
 
         @if(isset($answers) && count($answers) > 0)
         <div class="table-responsive">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped" id="tabelJawaban">
                 <thead class="table-dark">
                     <tr>
                         <th>No</th>
@@ -49,7 +56,7 @@
                     @foreach($answers as $index => $ans)
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $ans->user->pegawai->nama }}</td>
+                        <td class="nama-user">{{ $ans->user->pegawai->nama }}</td>
                         <td>{{ $ans->created_at->format('d-m-Y H:i') }}</td>
                         <td>
                             <!-- Tombol Detail -->
@@ -115,6 +122,7 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    // Konfirmasi delete
     document.addEventListener("DOMContentLoaded", function() {
         const deleteButtons = document.querySelectorAll(".btn-delete");
 
@@ -137,6 +145,23 @@
                     }
                 });
             });
+        });
+
+        // Search filter nama
+        const searchInput = document.getElementById("searchNama");
+        const table = document.getElementById("tabelJawaban");
+        const rows = table.getElementsByTagName("tr");
+
+        searchInput.addEventListener("keyup", function() {
+            const filter = this.value.toLowerCase();
+
+            for (let i = 1; i < rows.length; i++) {
+                const namaCell = rows[i].querySelector(".nama-user");
+                if (namaCell) {
+                    const text = namaCell.textContent.toLowerCase();
+                    rows[i].style.display = text.includes(filter) ? "" : "none";
+                }
+            }
         });
     });
 </script>

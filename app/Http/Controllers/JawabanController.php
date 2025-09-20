@@ -17,17 +17,19 @@ class JawabanController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        $forms = Form::all();
+        $forms = Form::orderBy('created_at', 'desc')->get();
 
         $answers = [];
         if ($request->form_id) {
-            $answers = FormAnswer::with(['user', 'details.question'])
+            $answers = FormAnswer::with(['user.pegawai', 'details.question.section'])
                 ->where('form_id', $request->form_id)
+                ->orderBy('created_at', 'desc')
                 ->get();
         }
 
         return view('jawaban.index', compact('forms', 'answers'));
     }
+
 
     public function destroy($id)
     {
