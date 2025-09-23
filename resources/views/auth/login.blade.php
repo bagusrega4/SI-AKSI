@@ -78,7 +78,7 @@
     </style>
 
     <div class="glass-card">
-        <h2>Welcome Back</h2>
+        <h2>SI-AKSI</h2>
         <p>Masukkan email BPS dan password untuk login</p>
 
         <form method="POST" action="{{ route('login') }}">

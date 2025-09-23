@@ -101,18 +101,84 @@
         font-weight: 700;
         font-style: italic;
         text-transform: uppercase;
-        color: #00bcd4;
-        /* biru tosca */
+        color: #ffffff !important;
+        /* warna putih */
         letter-spacing: 1.2px;
         line-height: 1.2;
-        /* rapatin antarbaris */
     }
 
+    /* Pastikan semua teks & ikon sidebar berwarna putih */
+    .sidebar .nav-item a p,
+    .sidebar .nav-item a i,
+    .sidebar .text-section,
+    .sidebar .nav-item a {
+        color: #ffffff !important;
+    }
+
+    /* Tambahkan sedikit efek agar tulisan lebih jelas */
+    .sidebar .nav-item a p,
+    .sidebar .nav-item a i {
+        text-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Sidebar background dengan gradasi merah gelap */
     .sidebar[data-background-color="dark"] {
-        background: #1b2b2b !important;
+        background: linear-gradient(135deg, #7D0A0A, #BF3131) !important;
+        color: #fff;
     }
 
+    /* Logo/header background */
     .logo-header[data-background-color="dark"] {
-        background: #254545 !important;
+        background: rgba(0, 0, 0, 0.25) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Nav item default */
+    .sidebar .nav-item a {
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
+        color: #ffffff !important;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+    }
+
+    /* Hover */
+    .sidebar .nav-item a:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff !important;
+        transform: translateX(4px);
+    }
+
+    /* Active */
+    .sidebar .nav-item.active a {
+        background: linear-gradient(90deg, #BF3131, #7D0A0A);
+        color: #ffffff !important;
+        font-weight: bold;
+    }
+
+    /* Icons */
+    .sidebar .nav-item i {
+        margin-right: 10px;
+        font-size: 16px;
+        color: #ffffff !important;
+    }
+
+    /* Section title */
+    .sidebar .text-section {
+        font-size: 12px;
+        letter-spacing: 1px;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-top: 10px;
+        color: #ffffff !important;
+    }
+
+    /* Badge */
+    .sidebar .badge {
+        font-size: 10px;
+        padding: 3px 6px;
+        background: #ffffff;
+        color: #000;
     }
 </style>
