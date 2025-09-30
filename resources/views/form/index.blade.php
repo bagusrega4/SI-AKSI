@@ -15,96 +15,99 @@
             </div>
         </div>
 
-        <form action="{{ isset($form) ? route('form.update', $form->id) : route('form.store') }}" method="POST">
+        <form action="{{ isset($form) ? route('form.update', $form->id) : route('form.store') }}"
+            method="POST"
+            onsubmit="return validateForm(event)">
             @csrf
             @if(isset($form))
-                @method('PUT')
+            @method('PUT')
             @endif
             <!-- Input judul form -->
             <div class="mb-4">
                 <label for="form_title" class="form-label fw-bold">Judul Form</label>
                 <input type="text" id="form_title" name="form_title" class="form-control"
-                       placeholder="Masukkan judul form" 
-                       value="{{ old('form_title', $form->title ?? '') }}" required>
+                    placeholder="Masukkan judul form"
+                    value="{{ old('form_title', $form->title ?? '') }}" required>
             </div>
 
             <!-- Wrapper semua section -->
             <div id="sections-wrapper">
                 @if(isset($form) && $form->sections)
-                    @foreach($form->sections as $section)
-                        @php $sKey = $section->id; @endphp
+                @foreach($form->sections as $section)
+                @php $sKey = $section->id; @endphp
 
-                        <div class="card mb-4">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <strong>Section {{ $loop->iteration }}</strong>
-                                <button type="button" class="btn btn-sm btn-danger" onclick="removeSection('section-{{ $sKey }}')">Hapus Section</button>
-                            </div>
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <strong>Section {{ $loop->iteration }}</strong>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="removeSection('section-{{ $sKey }}')">Hapus Section</button>
+                    </div>
 
-                            <div class="card-body" id="section-{{ $sKey }}">
-                                <!-- hidden id (opsional) -->
-                                <input type="hidden" name="sections[{{ $sKey }}][id]" value="{{ $sKey }}">
+                    <div class="card-body" id="section-{{ $sKey }}">
+                        <!-- hidden id (opsional) -->
+                        <input type="hidden" name="sections[{{ $sKey }}][id]" value="{{ $sKey }}">
 
-                                <div class="mb-3">
-                                    <label>Judul Section</label>
-                                    <input type="text" name="sections[{{ $sKey }}][title]" class="form-control" value="{{ $section->title }}">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label>Deskripsi Section</label>
-                                    <textarea name="sections[{{ $sKey }}][description]" class="form-control" rows="2">{{ old("sections.$sKey.description", $section->description ?? '') }}</textarea>
-                                </div>
-
-                                <div class="questions-wrapper mt-3">
-                                    @foreach($section->questions as $question)
-                                        @php $qKey = $question->id; @endphp
-                                        <div class="question-item mb-3 p-3 border rounded">
-                                            <input type="hidden" name="sections[{{ $sKey }}][questions][{{ $qKey }}][id]" value="{{ $qKey }}">
-
-                                            <label>Pertanyaan {{ $loop->iteration }}</label>
-                                            <input type="text"
-                                                name="sections[{{ $sKey }}][questions][{{ $qKey }}][text]"
-                                                class="form-control mb-2"
-                                                value="{{ $question->text }}">
-
-                                            <label>Tipe Pertanyaan</label>
-                                            <select class="form-select mb-2"
-                                                    name="sections[{{ $sKey }}][questions][{{ $qKey }}][type]"
-                                                    onchange="toggleQuestionType(this, '{{ $sKey }}', '{{ $qKey }}')">
-                                                <option value="text" {{ $question->type == 'text' ? 'selected' : '' }}>Isian (Text)</option>
-                                                <option value="multiple" {{ $question->type == 'multiple' ? 'selected' : '' }}>Pilihan Ganda</option>
-                                            </select>
-
-                                            <div class="options-wrapper" style="{{ $question->type == 'multiple' ? 'display:block' : 'display:none' }}">
-                                                <label>Jumlah Pilihan</label>
-                                                <input type="number"
-                                                    name="sections[{{ $sKey }}][questions][{{ $qKey }}][option_count]"
-                                                    min="2" max="10"
-                                                    value="{{ $question->type == 'multiple' ? ($question->options->count() ?? 2) : 0 }}"
-                                                    class="form-control mb-2"
-                                                    onchange="generateOptions(this, '{{ $sKey }}', '{{ $qKey }}')"
-                                                    {{ $question->type == 'multiple' ? '' : 'disabled' }}>
-
-                                                <div class="options-container">
-                                                    @if($question->type == 'multiple')
-                                                        @foreach($question->options as $opt)
-                                                            <input type="text"
-                                                                class="form-control mb-1"
-                                                                name="sections[{{ $sKey }}][questions][{{ $qKey }}][options][{{ $opt->id }}]"
-                                                                value="{{ $opt->option_text }}">
-                                                        @endforeach
-                                                    @endif
-                                                </div>
-                                            </div>
-
-                                            <button type="button" class="btn btn-sm btn-danger mt-2" onclick="this.parentElement.remove()">Hapus Pertanyaan</button>
-                                        </div>
-                                    @endforeach
-
-                                    <button type="button" class="btn btn-outline-primary btn-sm btn-add-question" onclick="addQuestion('section-{{ $sKey }}','{{ $sKey }}')">+ Tambah Pertanyaan</button>
-                                </div>
-                            </div>
+                        <div class="mb-3">
+                            <label>Judul Section</label>
+                            <input type="text" name="sections[{{ $sKey }}][title]" class="form-control" value="{{ $section->title }}">
                         </div>
-                    @endforeach
+
+                        <div class="mb-3">
+                            <label>Deskripsi Section</label>
+                            <textarea name="sections[{{ $sKey }}][description]" class="form-control" rows="2">{{ old("sections.$sKey.description", $section->description ?? '') }}</textarea>
+                        </div>
+
+                        <div class="questions-wrapper mt-3">
+                            @foreach($section->questions as $question)
+                            @php $qKey = $question->id; @endphp
+                            <div class="question-item mb-3 p-3 border rounded">
+                                <input type="hidden" name="sections[{{ $sKey }}][questions][{{ $qKey }}][id]" value="{{ $qKey }}">
+
+                                <label>Pertanyaan {{ $loop->iteration }}</label>
+                                <input type="text"
+                                    name="sections[{{ $sKey }}][questions][{{ $qKey }}][text]"
+                                    class="form-control mb-2"
+                                    value="{{ $question->text }}">
+
+                                <label>Tipe Pertanyaan</label>
+                                <select class="form-select mb-2"
+                                    name="sections[{{ $sKey }}][questions][{{ $qKey }}][type]"
+                                    onchange="toggleQuestionType(this, '{{ $sKey }}', '{{ $qKey }}')">
+                                    <option value="text" {{ $question->type == 'text' ? 'selected' : '' }}>Isian (Text)</option>
+                                    <option value="multiple" {{ $question->type == 'multiple' ? 'selected' : '' }}>Pilihan Ganda</option>
+                                    <option value="checkbox" {{ $question->type == 'checkbox' ? 'selected' : '' }}>Checkbox (Pilih Banyak)</option>
+                                </select>
+
+                                <div class="options-wrapper" style="{{ in_array($question->type, ['multiple', 'checkbox']) ? 'display:block' : 'display:none' }}">
+                                    <label>Jumlah Pilihan</label>
+                                    <input type="number"
+                                        name="sections[{{ $sKey }}][questions][{{ $qKey }}][option_count]"
+                                        min="2" max="10"
+                                        value="{{ in_array($question->type, ['multiple', 'checkbox']) ? ($question->options->count() ?? 2) : 0 }}"
+                                        class="form-control mb-2"
+                                        onchange="generateOptions(this, '{{ $sKey }}', '{{ $qKey }}')"
+                                        {{ in_array($question->type, ['multiple', 'checkbox']) ? '' : 'disabled' }}>
+
+                                    <div class="options-container">
+                                        @if(in_array($question->type, ['multiple', 'checkbox']))
+                                        @foreach($question->options as $opt)
+                                        <input type="text"
+                                            class="form-control mb-1"
+                                            name="sections[{{ $sKey }}][questions][{{ $qKey }}][options][{{ $opt->id }}]"
+                                            value="{{ $opt->option_text }}">
+                                        @endforeach
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn btn-sm btn-danger mt-2" onclick="this.parentElement.remove()">Hapus Pertanyaan</button>
+                            </div>
+                            @endforeach
+
+                            <button type="button" class="btn btn-outline-primary btn-sm btn-add-question" onclick="addQuestion('section-{{ $sKey }}','{{ $sKey }}')">+ Tambah Pertanyaan</button>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
                 @endif
             </div>
 
@@ -171,6 +174,7 @@
         <select class="form-select mb-2" name="sections[${sectionKey}][questions][${qKey}][type]" onchange="toggleQuestionType(this, '${sectionKey}', '${qKey}')">
             <option value="text">Isian (Text)</option>
             <option value="multiple">Pilihan Ganda</option>
+            <option value="checkbox">Checkbox (Pilih Banyak)</option>
         </select>
         <div class="options-wrapper" style="display:none;">
             <label>Jumlah Pilihan</label>
@@ -185,15 +189,16 @@
     function toggleQuestionType(select, sectionKey, questionKey) {
         const wrapper = select.closest(".question-item").querySelector(".options-wrapper");
         const numberInput = wrapper.querySelector("input[type='number']");
-        if (select.value === "multiple") {
+
+        if (select.value === "multiple" || select.value === "checkbox") {
             wrapper.style.display = "block";
             numberInput.disabled = false;
             if (parseInt(numberInput.value) < 2) numberInput.value = 2;
             generateOptions(numberInput, sectionKey, questionKey);
         } else {
             wrapper.style.display = "none";
-            numberInput.disabled = true;  // <--- biar tidak tervalidasi saat submit
-            numberInput.value = 0;        // <--- default ke 0
+            numberInput.disabled = true;
+            numberInput.value = 0;
             wrapper.querySelector(".options-container").innerHTML = "";
         }
     }
@@ -214,38 +219,64 @@
     }
 
     function validateForm(event) {
-    console.log("Form submit dicek...");
-    const questions = document.querySelectorAll(".question-item");
-    console.log("Jumlah pertanyaan:", questions.length);
+        console.log("Form submit dicek...");
+        const questions = document.querySelectorAll(".question-item");
+        console.log("Jumlah pertanyaan:", questions.length);
 
-    if (questions.length === 0) {
-        event.preventDefault();
-        Swal.fire({
-            icon: 'error',
-            title: 'Form tidak valid!',
-            text: 'Minimal harus ada 1 pertanyaan sebelum menyimpan form.',
-            confirmButtonColor: '#d33'
+        if (questions.length === 0) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Form tidak valid!',
+                text: 'Minimal harus ada 1 pertanyaan sebelum menyimpan form.',
+                confirmButtonColor: '#d33'
+            });
+            return false;
+        }
+
+        // Validasi options tidak boleh kosong untuk multiple/checkbox
+        let emptyOptions = [];
+        questions.forEach((question, idx) => {
+            const typeSelect = question.querySelector('select[name*="[type]"]');
+            if (typeSelect && (typeSelect.value === 'multiple' || typeSelect.value === 'checkbox')) {
+                const optionInputs = question.querySelectorAll('.options-container input[type="text"]');
+                optionInputs.forEach(input => {
+                    if (input.value.trim() === '') {
+                        emptyOptions.push(`Pertanyaan ${idx + 1} - ada pilihan yang kosong`);
+                    }
+                });
+            }
         });
-        return false;
-    }
+
+        if (emptyOptions.length > 0) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Options tidak boleh kosong!',
+                html: emptyOptions.join('<br>'),
+                confirmButtonColor: '#d33'
+            });
+            return false;
+        }
+
         return true;
     }
 
     @if(session('success'))
-    Swal.fire({ 
-        icon: 'success', 
-        title: 'Berhasil!', 
-        text: '{{ session("success") }}', 
-        confirmButtonColor: '#198754' 
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: '{{ session("success") }}',
+        confirmButtonColor: '#198754'
     })
     @endif
 
     @if(session('error'))
-    Swal.fire({ 
-        icon: 'error', 
-        title: 'Gagal!', 
-        text: '{{ session("error") }}', 
-        confirmButtonColor: '#d33' 
+    Swal.fire({
+        icon: 'error',
+        title: 'Gagal!',
+        text: '{{ session("error") }}',
+        confirmButtonColor: '#d33'
     })
     @endif
 </script>

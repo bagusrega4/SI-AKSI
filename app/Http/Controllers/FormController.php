@@ -28,12 +28,11 @@ class FormController extends Controller
     {
         DB::beginTransaction();
         try {
-            // 1. Simpan form utama
+
             $form = Form::create([
                 'title' => $request->input('form_title', 'Form Baru'),
             ]);
 
-            // 2. Loop sections
             if ($request->has('sections')) {
                 foreach ($request->sections as $secIndex => $secData) {
                     $section = Section::create([
@@ -42,7 +41,6 @@ class FormController extends Controller
                         'description' => $secData['description'] ?? null,
                     ]);
 
-                    // 3. Loop questions di tiap section
                     if (isset($secData['questions'])) {
                         foreach ($secData['questions'] as $qIndex => $qData) {
                             $question = Question::create([
@@ -51,13 +49,12 @@ class FormController extends Controller
                                 'type'       => $qData['type'] ?? 'text',
                             ]);
 
-                            // 4. Jika multiple → simpan options
-                            if ($question->type === 'multiple' && isset($qData['options'])) {
-                                foreach ($qData['options'] as $opt) {
-                                    if (!empty($opt)) {
+                            if (in_array($question->type, ['multiple', 'checkbox']) && isset($qData['options'])) {
+                                foreach ($qData['options'] as $optKey => $opt) {
+                                    if (!empty(trim($opt))) { // tambahkan trim()
                                         Option::create([
                                             'question_id' => $question->id,
-                                            'option_text' => $opt,
+                                            'option_text' => trim($opt),
                                         ]);
                                     }
                                 }
@@ -68,7 +65,6 @@ class FormController extends Controller
             }
 
             DB::commit();
-
             return redirect()->route('form.show', $form->id)
                 ->with('success', 'Form berhasil dibuat, silakan isi!');
         } catch (\Exception $e) {
@@ -114,6 +110,11 @@ class FormController extends Controller
         // Loop semua jawaban
         foreach ($request->input('answers') as $questionId => $answerText) {
             $question = Question::find($questionId);
+
+            // Jika checkbox (array), gabungkan dengan koma
+            if (is_array($answerText)) {
+                $answerText = implode(', ', $answerText);
+            }
 
             AnswerDetail::create([
                 'form_answer_id' => $formAnswer->id,
@@ -203,29 +204,32 @@ class FormController extends Controller
 
                     $keptQuestionIds[] = $question->id;
 
-                    // OPTIONS
+                    // OPTIONS - hanya untuk multiple dan checkbox
                     $incomingOptions = $qData['options'] ?? [];
                     $keptOptionIds = [];
 
-                    foreach ($incomingOptions as $optKey => $optVal) {
-                        if (strpos($optKey, 'new-') === 0) {
-                            $opt = Option::create([
-                                'question_id' => $question->id,
-                                'option_text' => $optVal,
-                            ]);
-                        } else {
-                            $optId = (int)$optKey;
-                            $opt = Option::find($optId);
-                            if ($opt && $opt->question_id == $question->id) {
-                                $opt->update(['option_text' => $optVal]);
-                            } else {
+                    // Hanya proses options jika tipe pertanyaan adalah multiple atau checkbox
+                    if (in_array($question->type, ['multiple', 'checkbox'])) {
+                        foreach ($incomingOptions as $optKey => $optVal) {
+                            if (strpos($optKey, 'new-') === 0) {
                                 $opt = Option::create([
                                     'question_id' => $question->id,
                                     'option_text' => $optVal,
                                 ]);
+                            } else {
+                                $optId = (int)$optKey;
+                                $opt = Option::find($optId);
+                                if ($opt && $opt->question_id == $question->id) {
+                                    $opt->update(['option_text' => $optVal]);
+                                } else {
+                                    $opt = Option::create([
+                                        'question_id' => $question->id,
+                                        'option_text' => $optVal,
+                                    ]);
+                                }
                             }
+                            $keptOptionIds[] = $opt->id;
                         }
-                        $keptOptionIds[] = $opt->id;
                     }
 
                     // delete options removed by user

@@ -36,7 +36,7 @@
                             name="answers[{{ $question->id }}]"
                             class="form-control">
 
-                        {{-- Pilihan Ganda --}}
+                        {{-- Pilihan Ganda (Radio) --}}
                         @elseif($question->type === 'multiple')
                         @foreach($question->options as $opt)
                         <div class="form-check">
@@ -45,6 +45,22 @@
                                 value="{{ $opt->option_text }}"
                                 class="form-check-input"
                                 id="q{{ $question->id }}_{{ $loop->index }}">
+                            <label class="form-check-label" for="q{{ $question->id }}_{{ $loop->index }}">
+                                {{ $opt->option_text }}
+                            </label>
+                        </div>
+                        @endforeach
+
+                        {{-- Checkbox (Pilih Banyak) --}}
+                        @elseif($question->type === 'checkbox')
+                        @foreach($question->options as $opt)
+                        <div class="form-check">
+                            <input type="checkbox"
+                                name="answers[{{ $question->id }}][]"
+                                value="{{ $opt->option_text }}"
+                                class="form-check-input checkbox-question"
+                                id="q{{ $question->id }}_{{ $loop->index }}"
+                                data-question="{{ $question->id }}">
                             <label class="form-check-label" for="q{{ $question->id }}_{{ $loop->index }}">
                                 {{ $opt->option_text }}
                             </label>
@@ -121,6 +137,35 @@
         for (let groupName in radioGroups) {
             const group = radioGroups[groupName];
             const checked = group.some(radio => radio.checked);
+            if (!checked) {
+                const questionDiv = group[0].closest('.mb-3');
+                const label = questionDiv.querySelector('label.fw-bold');
+                let qNumber = "No. ?";
+                if (label) {
+                    const match = label.textContent.trim().match(/^(\d+)\./);
+                    if (match) qNumber = `No. ${match[1]}`;
+                }
+
+                const sectionCard = group[0].closest('.card');
+                const sectionTitle = sectionCard.querySelector('.card-header strong')?.textContent.trim() || "Section";
+
+                errors.push(`Section: ${sectionTitle}, ${qNumber}`);
+            }
+        }
+
+        // Cek semua checkbox group
+        const checkboxGroups = {};
+        document.querySelectorAll('input[type="checkbox"].checkbox-question').forEach(checkbox => {
+            const questionId = checkbox.getAttribute('data-question');
+            if (!checkboxGroups[questionId]) {
+                checkboxGroups[questionId] = [];
+            }
+            checkboxGroups[questionId].push(checkbox);
+        });
+
+        for (let questionId in checkboxGroups) {
+            const group = checkboxGroups[questionId];
+            const checked = group.some(checkbox => checkbox.checked);
             if (!checked) {
                 const questionDiv = group[0].closest('.mb-3');
                 const label = questionDiv.querySelector('label.fw-bold');

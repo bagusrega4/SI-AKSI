@@ -20,7 +20,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('form_id')->constrained('forms')->onDelete('cascade');
             $table->string('title');
-            $table->text('description')->nullable(); // kolom deskripsi
+            $table->text('description')->nullable();
             $table->timestamps();
         });
 
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('section_id')->constrained('sections')->onDelete('cascade');
             $table->text('text');
-            $table->enum('type', ['text', 'multiple']); // tipe pertanyaan
+            $table->enum('type', ['text', 'multiple', 'checkbox']);
             $table->timestamps();
         });
 
