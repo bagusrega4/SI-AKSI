@@ -81,7 +81,7 @@
                                     <label>Jumlah Pilihan</label>
                                     <input type="number"
                                         name="sections[{{ $sKey }}][questions][{{ $qKey }}][option_count]"
-                                        min="2" max="10"
+                                        min="2"
                                         value="{{ in_array($question->type, ['multiple', 'checkbox']) ? ($question->options->count() ?? 2) : 0 }}"
                                         class="form-control mb-2"
                                         onchange="generateOptions(this, '{{ $sKey }}', '{{ $qKey }}')"
@@ -178,7 +178,7 @@
         </select>
         <div class="options-wrapper" style="display:none;">
             <label>Jumlah Pilihan</label>
-            <input type="number" name="sections[${sectionKey}][questions][${qKey}][option_count]" min="2" max="10" value="4" class="form-control mb-2" onchange="generateOptions(this, '${sectionKey}', '${qKey}')">
+            <input type="number" name="sections[${sectionKey}][questions][${qKey}][option_count]" min="2" value="4" class="form-control mb-2" onchange="generateOptions(this, '${sectionKey}', '${qKey}')">
             <div class="options-container"></div>
         </div>
         <button type="button" class="btn btn-sm btn-danger mt-2" onclick="this.parentElement.remove()">Hapus Pertanyaan</button>`;
