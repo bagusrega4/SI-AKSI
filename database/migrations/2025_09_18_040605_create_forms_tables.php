@@ -30,6 +30,8 @@ return new class extends Migration
             $table->foreignId('section_id')->constrained('sections')->onDelete('cascade');
             $table->text('text');
             $table->enum('type', ['text', 'multiple', 'checkbox']);
+            $table->integer('max_selections')->nullable();
+            $table->integer('min_selections')->nullable();
             $table->timestamps();
         });
 

@@ -21,7 +21,7 @@ class FormController extends Controller
 
     public function create()
     {
-        return view('form.create'); // halaman form builder
+        return view('form.create');
     }
 
     public function store(Request $request)
@@ -43,15 +43,29 @@ class FormController extends Controller
 
                     if (isset($secData['questions'])) {
                         foreach ($secData['questions'] as $qIndex => $qData) {
+                            $minSelections = null;
+                            $maxSelections = null;
+
+                            if ($qData['type'] === 'checkbox') {
+                                $minSelections = isset($qData['min_selections']) && $qData['min_selections'] !== '' 
+                                    ? (int)$qData['min_selections'] 
+                                    : null;
+                                $maxSelections = isset($qData['max_selections']) && $qData['max_selections'] !== '' 
+                                    ? (int)$qData['max_selections'] 
+                                    : null;
+                            }
+
                             $question = Question::create([
                                 'section_id' => $section->id,
                                 'text'       => $qData['text'] ?? "Pertanyaan $qIndex",
                                 'type'       => $qData['type'] ?? 'text',
+                                'min_selections' => $minSelections,
+                                'max_selections' => $maxSelections,
                             ]);
 
                             if (in_array($question->type, ['multiple', 'checkbox']) && isset($qData['options'])) {
                                 foreach ($qData['options'] as $optKey => $opt) {
-                                    if (!empty(trim($opt))) { // tambahkan trim()
+                                    if (!empty(trim($opt))) {
                                         Option::create([
                                             'question_id' => $question->id,
                                             'option_text' => trim($opt),
@@ -101,6 +115,29 @@ class FormController extends Controller
     {
         $form = Form::findOrFail($id);
 
+        // Validasi checkbox min/max selections
+        foreach ($request->input('answers', []) as $questionId => $answerValue) {
+            $question = Question::find($questionId);
+            
+            if ($question && $question->type === 'checkbox') {
+                $selectedCount = is_array($answerValue) ? count($answerValue) : 0;
+
+                // Validasi minimal
+                if ($question->min_selections && $selectedCount < $question->min_selections) {
+                    return back()->with('error', 
+                        "Pertanyaan '{$question->text}' harus memilih minimal {$question->min_selections} pilihan!"
+                    )->withInput();
+                }
+
+                // Validasi maksimal
+                if ($question->max_selections && $selectedCount > $question->max_selections) {
+                    return back()->with('error', 
+                        "Pertanyaan '{$question->text}' hanya boleh memilih maksimal {$question->max_selections} pilihan!"
+                    )->withInput();
+                }
+            }
+        }
+
         // Simpan jawaban utama
         $formAnswer = FormAnswer::create([
             'form_id' => $form->id,
@@ -118,7 +155,7 @@ class FormController extends Controller
 
             AnswerDetail::create([
                 'form_answer_id' => $formAnswer->id,
-                'section_id'     => $question->section_id, // ambil dari relasi
+                'section_id'     => $question->section_id,
                 'question_id'    => $questionId,
                 'answer_text'    => $answerText,
             ]);
@@ -162,7 +199,6 @@ class FormController extends Controller
                             'description' => $sData['description'] ?? $section->description,
                         ]);
                     } else {
-                        // fallback: create if not found
                         $section = Section::create([
                             'form_id'     => $form->id,
                             'title'       => $sData['title'] ?? null,
@@ -178,11 +214,27 @@ class FormController extends Controller
                 $keptQuestionIds = [];
 
                 foreach ($incomingQuestions as $qKey => $qData) {
+                    $questionType = $qData['type'] ?? 'text';
+                    
+                    $minSelections = null;
+                    $maxSelections = null;
+
+                    if ($questionType === 'checkbox') {
+                        $minSelections = isset($qData['min_selections']) && $qData['min_selections'] !== '' 
+                            ? (int)$qData['min_selections'] 
+                            : null;
+                        $maxSelections = isset($qData['max_selections']) && $qData['max_selections'] !== '' 
+                            ? (int)$qData['max_selections'] 
+                            : null;
+                    }
+
                     if (strpos($qKey, 'new-') === 0) {
                         $question = Question::create([
                             'section_id' => $section->id,
                             'text'       => $qData['text'] ?? null,
-                            'type'       => $qData['type'] ?? 'text',
+                            'type'       => $questionType,
+                            'min_selections' => $minSelections,
+                            'max_selections' => $maxSelections,
                         ]);
                     } else {
                         $qid = (int)$qKey;
@@ -190,25 +242,27 @@ class FormController extends Controller
                         if ($question && $question->section_id == $section->id) {
                             $question->update([
                                 'text' => $qData['text'] ?? $question->text,
-                                'type' => $qData['type'] ?? $question->type,
+                                'type' => $questionType,
+                                'min_selections' => $minSelections,
+                                'max_selections' => $maxSelections,
                             ]);
                         } else {
-                            // fallback create
                             $question = Question::create([
                                 'section_id' => $section->id,
                                 'text'       => $qData['text'] ?? null,
-                                'type'       => $qData['type'] ?? 'text',
+                                'type'       => $questionType,
+                                'min_selections' => $minSelections,
+                                'max_selections' => $maxSelections,
                             ]);
                         }
                     }
 
                     $keptQuestionIds[] = $question->id;
 
-                    // OPTIONS - hanya untuk multiple dan checkbox
+                    // OPTIONS
                     $incomingOptions = $qData['options'] ?? [];
                     $keptOptionIds = [];
 
-                    // Hanya proses options jika tipe pertanyaan adalah multiple atau checkbox
                     if (in_array($question->type, ['multiple', 'checkbox'])) {
                         foreach ($incomingOptions as $optKey => $optVal) {
                             if (strpos($optKey, 'new-') === 0) {
@@ -232,19 +286,16 @@ class FormController extends Controller
                         }
                     }
 
-                    // delete options removed by user
                     Option::where('question_id', $question->id)
                         ->whereNotIn('id', $keptOptionIds ?: [0])
                         ->delete();
                 }
 
-                // delete questions removed by user
                 Question::where('section_id', $section->id)
                     ->whereNotIn('id', $keptQuestionIds ?: [0])
                     ->delete();
             }
 
-            // delete sections removed by user
             Section::where('form_id', $form->id)
                 ->whereNotIn('id', $keptSectionIds ?: [0])
                 ->delete();
@@ -261,7 +312,6 @@ class FormController extends Controller
     public function destroy(Form $form)
     {
         $form->delete();
-
         return redirect()->route('form.list')->with('success', 'Form berhasil dihapus.');
     }
 }
