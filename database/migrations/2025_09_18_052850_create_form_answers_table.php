@@ -11,7 +11,8 @@ return new class extends Migration
         Schema::create('form_answers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('form_id');
-            $table->unsignedBigInteger('user_id')->nullable(); // kalau ada login user
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unique(['form_id', 'user_id']);
             $table->timestamps();
 
             $table->foreign('form_id')->references('id')->on('forms')->onDelete('cascade');

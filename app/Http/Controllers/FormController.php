@@ -47,11 +47,11 @@ class FormController extends Controller
                             $maxSelections = null;
 
                             if ($qData['type'] === 'checkbox') {
-                                $minSelections = isset($qData['min_selections']) && $qData['min_selections'] !== '' 
-                                    ? (int)$qData['min_selections'] 
+                                $minSelections = isset($qData['min_selections']) && $qData['min_selections'] !== ''
+                                    ? (int)$qData['min_selections']
                                     : null;
-                                $maxSelections = isset($qData['max_selections']) && $qData['max_selections'] !== '' 
-                                    ? (int)$qData['max_selections'] 
+                                $maxSelections = isset($qData['max_selections']) && $qData['max_selections'] !== ''
+                                    ? (int)$qData['max_selections']
                                     : null;
                             }
 
@@ -97,14 +97,24 @@ class FormController extends Controller
     {
         $userId = auth()->id();
 
-        $forms = Form::with('answers')
+        // SOLUSI 1: Menggunakan subquery untuk menghindari duplikasi
+        $forms = Form::query()
             ->select('forms.*')
-            ->selectRaw('CASE WHEN form_answers.id IS NULL THEN 0 ELSE 1 END AS sudah_isi')
-            ->leftJoin('form_answers', function ($join) use ($userId) {
-                $join->on('forms.id', '=', 'form_answers.form_id')
-                    ->where('form_answers.user_id', '=', $userId);
-            })
-            ->orderBy('sudah_isi', 'ASC')
+            ->selectSub(
+                FormAnswer::selectRaw('COUNT(*)')
+                    ->whereColumn('form_answers.form_id', 'forms.id')
+                    ->where('form_answers.user_id', $userId)
+                    ->limit(1),
+                'sudah_isi'
+            )
+            ->with(['answers' => function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }])
+            ->orderByRaw('CASE WHEN (
+                SELECT COUNT(*) FROM form_answers 
+                WHERE form_answers.form_id = forms.id 
+                AND form_answers.user_id = ?
+            ) > 0 THEN 1 ELSE 0 END ASC', [$userId])
             ->orderBy('forms.created_at', 'DESC')
             ->get();
 
@@ -114,54 +124,73 @@ class FormController extends Controller
     public function storeAnswer(Request $request, $id)
     {
         $form = Form::findOrFail($id);
+        $userId = auth()->id();
+
+        // PENTING: Cek apakah user sudah pernah mengisi form ini
+        $existingAnswer = FormAnswer::where('form_id', $form->id)
+            ->where('user_id', $userId)
+            ->first();
+
+        if ($existingAnswer) {
+            return back()->with('error', 'Anda sudah pernah mengisi form ini sebelumnya!')->withInput();
+        }
 
         // Validasi checkbox min/max selections
         foreach ($request->input('answers', []) as $questionId => $answerValue) {
             $question = Question::find($questionId);
-            
+
             if ($question && $question->type === 'checkbox') {
                 $selectedCount = is_array($answerValue) ? count($answerValue) : 0;
 
                 // Validasi minimal
                 if ($question->min_selections && $selectedCount < $question->min_selections) {
-                    return back()->with('error', 
+                    return back()->with(
+                        'error',
                         "Pertanyaan '{$question->text}' harus memilih minimal {$question->min_selections} pilihan!"
                     )->withInput();
                 }
 
                 // Validasi maksimal
                 if ($question->max_selections && $selectedCount > $question->max_selections) {
-                    return back()->with('error', 
+                    return back()->with(
+                        'error',
                         "Pertanyaan '{$question->text}' hanya boleh memilih maksimal {$question->max_selections} pilihan!"
                     )->withInput();
                 }
             }
         }
 
-        // Simpan jawaban utama
-        $formAnswer = FormAnswer::create([
-            'form_id' => $form->id,
-            'user_id' => auth()->id() ?? null,
-        ]);
+        DB::beginTransaction();
+        try {
+            // Simpan jawaban utama
+            $formAnswer = FormAnswer::create([
+                'form_id' => $form->id,
+                'user_id' => $userId,
+            ]);
 
-        // Loop semua jawaban
-        foreach ($request->input('answers') as $questionId => $answerText) {
-            $question = Question::find($questionId);
+            // Loop semua jawaban
+            foreach ($request->input('answers') as $questionId => $answerText) {
+                $question = Question::find($questionId);
 
-            // Jika checkbox (array), gabungkan dengan koma
-            if (is_array($answerText)) {
-                $answerText = implode(', ', $answerText);
+                // Jika checkbox (array), gabungkan dengan koma
+                if (is_array($answerText)) {
+                    $answerText = implode(', ', $answerText);
+                }
+
+                AnswerDetail::create([
+                    'form_answer_id' => $formAnswer->id,
+                    'section_id'     => $question->section_id,
+                    'question_id'    => $questionId,
+                    'answer_text'    => $answerText,
+                ]);
             }
 
-            AnswerDetail::create([
-                'form_answer_id' => $formAnswer->id,
-                'section_id'     => $question->section_id,
-                'question_id'    => $questionId,
-                'answer_text'    => $answerText,
-            ]);
+            DB::commit();
+            return redirect()->route('form.list')->with('success', 'Jawaban berhasil disimpan!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
-
-        return redirect()->route('form.list')->with('success', 'Jawaban berhasil disimpan!');
     }
 
     public function edit(Form $form)
@@ -215,16 +244,16 @@ class FormController extends Controller
 
                 foreach ($incomingQuestions as $qKey => $qData) {
                     $questionType = $qData['type'] ?? 'text';
-                    
+
                     $minSelections = null;
                     $maxSelections = null;
 
                     if ($questionType === 'checkbox') {
-                        $minSelections = isset($qData['min_selections']) && $qData['min_selections'] !== '' 
-                            ? (int)$qData['min_selections'] 
+                        $minSelections = isset($qData['min_selections']) && $qData['min_selections'] !== ''
+                            ? (int)$qData['min_selections']
                             : null;
-                        $maxSelections = isset($qData['max_selections']) && $qData['max_selections'] !== '' 
-                            ? (int)$qData['max_selections'] 
+                        $maxSelections = isset($qData['max_selections']) && $qData['max_selections'] !== ''
+                            ? (int)$qData['max_selections']
                             : null;
                     }
 
